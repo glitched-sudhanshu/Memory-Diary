@@ -5,4 +5,15 @@
     <string name="title_notifications">Notifications</string>
     <string name="splash_screen_first_half">Memo</string>
     <string name="splash_screen_second_half">Diary</string>
+    <string name="add_dish">Add Dish</string>
+    <string name="lbl_memory_title">Title</string>
+    <string name="lbl_memory_type">Type</string>
+    <string name="lbl_people_involved">People involved</string>
+    <string name="lbl_description">Description</string>
+    <string name="lbl_date">Date</string>
+    <string name="lbl_time">Time</string>
+    <string name="add_new_memory">Add Memory</string>
+    <string name="txt_dialogue_image_selection">Choose image from</string>
+    <string name="lbl_camera">Camera</string>
+    <string name="lbl_gallery">Gallery</string>
 </resources>

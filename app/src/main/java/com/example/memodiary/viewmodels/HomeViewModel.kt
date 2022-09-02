@@ -1,4 +1,4 @@
-package com.example.memodiary.ui.home
+package com.example.memodiary.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

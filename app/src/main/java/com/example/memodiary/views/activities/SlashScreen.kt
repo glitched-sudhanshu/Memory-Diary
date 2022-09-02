@@ -1,4 +1,4 @@
-package com.example.memodiary
+package com.example.memodiary.views.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.example.memodiary.R
 import com.example.memodiary.databinding.ActivitySlashScreenBinding
 
 class SlashScreen : AppCompatActivity() {
@@ -23,8 +24,12 @@ class SlashScreen : AppCompatActivity() {
         //to hide status and system bars
         hideSystemBars()
 
-        val splashTopMiddleAnimation = AnimationUtils.loadAnimation(this, R.anim.splash_top_to_middle)
-        val splashBottomMiddleAnimation = AnimationUtils.loadAnimation(this, R.anim.splash_bottom_to_middle)
+        val splashTopMiddleAnimation = AnimationUtils.loadAnimation(this,
+            R.anim.splash_top_to_middle
+        )
+        val splashBottomMiddleAnimation = AnimationUtils.loadAnimation(this,
+            R.anim.splash_bottom_to_middle
+        )
         splashScreenBinding.splashScreenTxt1stHalf.animation = splashTopMiddleAnimation
         splashScreenBinding.splashScreenTxt2ndHalf.animation = splashBottomMiddleAnimation
         animationListener(splashTopMiddleAnimation)
