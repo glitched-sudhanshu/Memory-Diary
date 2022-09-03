@@ -38,7 +38,6 @@ class AllMemoryFragment : Fragment() {
         }
 
         val menuHost : MenuHost = requireActivity()
-        val menuItemAddMemoryAdded = false
         menuHost.addMenuProvider(object : MenuProvider{
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 if(!menu.hasVisibleItems())

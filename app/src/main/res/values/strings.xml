@@ -16,4 +16,13 @@
     <string name="txt_dialogue_image_selection">Choose image from</string>
     <string name="lbl_camera">Camera</string>
     <string name="lbl_gallery">Gallery</string>
+    <string name="title_select_memory_type">Select Memory Type</string>
+    <string name="title_select_people_involved">Select People Involved</string>
+    <string name="err_msg_image_not_selected">Please select an image.</string>
+    <string name="err_msg_title_not_entered">Please enter a title.</string>
+    <string name="err_msg_type_not_selected">Please select a type of memory</string>
+    <string name="err_msg_people_not_selected">Please select the person involved</string>
+    <string name="err_msg_date_not_selected">Please select a date</string>
+    <string name="err_msg_time_not_selected">Please select a time.</string>
+    <string name="err_msg_description_not_selected">Please enter some description.</string>
 </resources>
