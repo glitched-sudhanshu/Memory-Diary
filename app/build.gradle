@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+//    It is for room db
+    id 'kotlin-kapt'
 }
 
 android {
@@ -26,6 +28,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+//we are excluding meta atomic fu kotlin module from the package so that it will prevent warning o/w it will create warnings. It is for room db
+    packagingOptions{
+        exclude 'META-INF/atomicfu.kotlin_module'
+    }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -57,4 +64,14 @@ dependencies {
 //    glide dependency for image loading
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+
+    //room db dependencies
+    def room_version = "2.4.3"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+    //optional- Kotlin ext. and coroutines support for room
+    implementation("androidx.room:room-ktx:$room_version")
+
 }

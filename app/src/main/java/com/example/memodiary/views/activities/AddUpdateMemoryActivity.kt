@@ -2,7 +2,9 @@ package com.example.memodiary.views.activities
 
 import android.Manifest
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.ActivityNotFoundException
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -19,6 +21,8 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -90,7 +94,8 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         Glide.with(this)
             .load(it)
             .centerCrop()
-            .error(R.mipmap.ic_launcher)
+            //because we have our background color. so no need of this
+//            .error(R.mipmap.ic_launcher)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .listener(object : RequestListener<Drawable>{
                 override fun onLoadFailed(
@@ -138,6 +143,8 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         mBinding.etType.setOnClickListener(this)
         mBinding.etPeopleInvolved.setOnClickListener(this)
         mBinding.btnAddUpdateMemory.setOnClickListener(this)
+        mBinding.etDate.setOnClickListener(this)
+        mBinding.etTimeAddingInDiary.setOnClickListener(this)
 
     }
 
@@ -189,9 +196,9 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
                         TextUtils.isEmpty(peopleInvolved) -> {
                             Toast.makeText(this, R.string.err_msg_people_not_selected, Toast.LENGTH_LONG).show()
                         }
-//                        TextUtils.isEmpty(date) -> {
-//                            Toast.makeText(this, R.string.err_msg_date_not_selected, Toast.LENGTH_LONG).show()
-//                        }
+                        TextUtils.isEmpty(date) -> {
+                            Toast.makeText(this, R.string.err_msg_date_not_selected, Toast.LENGTH_LONG).show()
+                        }
 //                        TextUtils.isEmpty(time) -> {
 //                            Toast.makeText(this, R.string.err_msg_time_not_selected, Toast.LENGTH_LONG).show()
 //                        }
@@ -205,10 +212,20 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
 
                     }
                 }
+                R.id.et_date -> {
+                    chooseDate()
+                    return
+                }
+                R.id.et_time_adding_in_diary -> {
+                    chooseTime()
+                    return
+                }
 
             }
         }
     }
+
+
 
     private fun customImageSelectionDialog() {
         /**
@@ -341,6 +358,7 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         mCustomListBinding.show()
     }
 
+    //not private because is used in adapter class
     fun selectedListItem(item: String, selection: String){
         when(selection){
             Constants.MEMORY_TYPE -> {
@@ -355,5 +373,39 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    //function to choose the date
+    private fun chooseDate()
+    {
+        val calendar = Calendar.getInstance()
+        //this will be the date that will be selected by the date picker by default
+        val curDay = calendar.get(Calendar.DAY_OF_MONTH)
+        val curMonth = calendar.get(Calendar.MONTH)
+        val curYear = calendar.get(Calendar.YEAR)
+        val picker = DatePickerDialog(this,
+            { _, year, month, dayOfMonth ->
+                if(year>curYear || (year==curYear && month>curMonth) || (year==curYear && month==curMonth && dayOfMonth>curDay)) {
+                    mBinding.etDate.setText("")
+                    Toast.makeText(this,
+                        "Enter valid date",
+                        Toast.LENGTH_LONG).show()
+                }else
+                //dk why but month has 0 based indexing that's why +1
+                    mBinding.etDate.setText("$dayOfMonth / ${month+1} / $year")
+            }, curYear, curMonth, curDay)
+        picker.show()
+    }
+
+    private fun chooseTime() {
+        val calendar = Calendar.getInstance()
+        //this will be the date that will be selected by the date picker by default
+        val curHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val curMinutes = calendar.get(Calendar.MINUTE)
+        val picker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener{
+            override fun onTimeSet(view: TimePicker?, hour: Int, minutes: Int) {
+                mBinding.etTimeAddingInDiary.setText("$hour : $minutes")
+            }
+        }, curHour, curMinutes, true)
+        picker.show()
+    }
 }
 
