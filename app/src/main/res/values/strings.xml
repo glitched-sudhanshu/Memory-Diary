@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">MemoDiary</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_all_memory">All Memory</string>
+    <string name="title_favourite_memory">Favourite</string>
+    <string name="title_random_memory">Random Memory</string>
     <string name="splash_screen_first_half">Memo</string>
     <string name="splash_screen_second_half">Diary</string>
     <string name="add_dish">Add Dish</string>
@@ -25,4 +25,6 @@
     <string name="err_msg_date_not_selected">Please select a date</string>
     <string name="err_msg_time_not_selected">Please select a time.</string>
     <string name="err_msg_description_not_selected">Please enter some description.</string>
+    <string name="lbl_tv_no_memory_added_yet">No memories added yet.</string>
+    <string name="image_memory_contentDesc">Memory image</string>
 </resources>

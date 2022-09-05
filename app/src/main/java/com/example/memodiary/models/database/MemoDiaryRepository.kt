@@ -2,6 +2,7 @@ package com.example.memodiary.models.database
 
 import androidx.annotation.WorkerThread
 import com.example.memodiary.models.entities.MemoDiary
+import kotlinx.coroutines.flow.Flow
 
 /**
  * A Repository manages queries and allows you to use multiple backends. In the most common example, the Repository implements the logic for deciding whether to fetch data from a network or use results cached in a local database.
@@ -23,6 +24,8 @@ class MemoDiaryRepository(private val memoDiaryDao: MemoDiaryDao) {
     suspend fun insertMemoDiaryData(memoDiary: MemoDiary){
         memoDiaryDao.insertFavMemoDiaryDetails(memoDiary)
     }
+
+    val allMemoDiaryList: Flow<List<MemoDiary>> = memoDiaryDao.getAllMemoryList()
 }
 
 /**

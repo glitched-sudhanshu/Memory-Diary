@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.memodiary.databinding.FragmentDashboardBinding
-import com.example.memodiary.viewmodels.DashboardViewModel
+import com.example.memodiary.databinding.FragmentRandomMemoryBinding
+import com.example.memodiary.viewmodels.NotificationsViewModel
 
-class DashboardFragment : Fragment() {
+//TODO: This will not be a random memory in my application so change it accordingly, but for now I'm naming it as RandomMemoryFragment. names of string value, navigation me value, layout value
+class RandomMemoryFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentRandomMemoryBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,14 +24,14 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        val notificationsViewModel =
+            ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentRandomMemoryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textNotifications
+        notificationsViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

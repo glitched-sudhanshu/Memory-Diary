@@ -4,6 +4,9 @@ object Constants {
     const val MEMORY_TYPE : String = "MemoryType"
     const val PEOPLE_INVOLVED : String = "PeopleInvolvedInMemory"
 
+    const val MEMO_IMAGE_SOURCE_LOCAL : String = "Local"
+    const val MEMO_IMAGE_SOURCE_ONLINE : String = "Online"
+
     fun memoryTypes():ArrayList<String>{
         val list = ArrayList<String>()
         list.add("Happiness")

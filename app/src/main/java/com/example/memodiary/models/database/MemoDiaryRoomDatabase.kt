@@ -31,10 +31,9 @@ abstract class MemoDiaryRoomDatabase :RoomDatabase(){
                 instance
             }
         }
-
     }
 
-    abstract fun memoDiaryDai() : MemoDiaryDao
+    abstract fun memoDiaryDao() : MemoDiaryDao
 
 //    For each DAO class that is associated with the database, the database class must define an abstract method that has zero arguments and returns an instance of the DAO class.
 }

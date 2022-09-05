@@ -25,6 +25,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
@@ -36,10 +37,14 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.memodiary.R
+import com.example.memodiary.application.MemoDiaryApplication
 import com.example.memodiary.databinding.ActivityAddUpdateMemoryBinding
 import com.example.memodiary.databinding.DialogCustomListBinding
 import com.example.memodiary.databinding.DialogImageSelectionBinding
+import com.example.memodiary.models.entities.MemoDiary
 import com.example.memodiary.utils.Constants
+import com.example.memodiary.viewmodels.MemoDiaryViewModel
+import com.example.memodiary.viewmodels.MemoDiaryViewModelFactory
 import com.example.memodiary.views.adapters.CustomListItemAdapter
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -54,6 +59,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.util.*
+import javax.security.auth.login.LoginException
 
 
 class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
@@ -63,72 +69,83 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         private const val IMAGE_DIRECTORY = "MemoDiary"
     }
 
+    private val mMemoDiaryViewModel: MemoDiaryViewModel by viewModels {
+        //we are passing the repository from our application to the model factory, which then basically which then basically creates our viewModel object here.
+        MemoDiaryViewModelFactory((application as MemoDiaryApplication).repository)
+    }
+
     private lateinit var mBinding: ActivityAddUpdateMemoryBinding
 
-    private lateinit var mCustomListBinding : Dialog
+    private lateinit var mCustomListBinding: Dialog
 
-    private var tempImageUri : Uri? = null
+    private var tempImageUri: Uri? = null
 
     private var mImagePath = ""
-    private val takePictureFromCamera = registerForActivityResult(ActivityResultContracts.TakePicture()){
-        if(it)
-        {
-            Glide.with(this)
-                .load(tempImageUri)
-                .centerCrop()
-                .error(R.mipmap.ic_launcher)
-                .into(mBinding.ivMemoryImage)
-            val source = ImageDecoder.createSource(this.contentResolver, tempImageUri!!)
-            mImagePath = saveImageToInternalStorage(ImageDecoder.decodeBitmap(source))
-            
+    private val takePictureFromCamera =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) {
+            if (it) {
+                Glide.with(this)
+                    .load(tempImageUri)
+                    .centerCrop()
+                    .error(R.mipmap.ic_launcher)
+                    .into(mBinding.ivMemoryImage)
+                val source = ImageDecoder.createSource(this.contentResolver, tempImageUri!!)
+                mImagePath = saveImageToInternalStorage(ImageDecoder.decodeBitmap(source))
 
-            Log.i(TAG, "PathImage: $mImagePath")
-            mBinding.ivAddMemoryImage.setImageDrawable(ContextCompat.getDrawable(this@AddUpdateMemoryActivity, R.drawable.ic_edit))
-            //TODO: DELETE THE TEMPORARY FILE WHICH HAS BEEN CREATED
+
+                Log.i(TAG, "PathImage: $mImagePath")
+                mBinding.ivAddMemoryImage.setImageDrawable(ContextCompat.getDrawable(this@AddUpdateMemoryActivity,
+                    R.drawable.ic_edit))
+                //TODO: DELETE THE TEMPORARY FILE WHICH HAS BEEN CREATED
 //            val file = tempImageUri!!.toFile()
 //            file.delete()
+            }
         }
-    }
 
-    private val selectPictureFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        Glide.with(this)
-            .load(it)
-            .centerCrop()
-            //because we have our background color. so no need of this
+    private val selectPictureFromGallery =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+            Glide.with(this)
+                .load(it)
+                .centerCrop()
+                //because we have our background color. so no need of this
 //            .error(R.mipmap.ic_launcher)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .listener(object : RequestListener<Drawable>{
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean,
-                ): Boolean {
-                    Toast.makeText(this@AddUpdateMemoryActivity, "Application is not able to store the image in internal storage", Toast.LENGTH_LONG).show()
-                    Log.e(TAG, "onLoadFailed: Application is not able to store the image in internal storage")
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean,
-                ): Boolean {
-                    resource?.let {
-                        val bitmap = resource.toBitmap()
-                        mImagePath = saveImageToInternalStorage(bitmap)
-
-                        Log.i(TAG, "PathImage: $mImagePath")
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean,
+                    ): Boolean {
+                        Toast.makeText(this@AddUpdateMemoryActivity,
+                            "Application is not able to store the image in internal storage",
+                            Toast.LENGTH_LONG).show()
+                        Log.e(TAG,
+                            "onLoadFailed: Application is not able to store the image in internal storage")
+                        return false
                     }
-                    return false
-                }
-            })
-            .into(mBinding.ivMemoryImage)
 
-        mBinding.ivAddMemoryImage.setImageDrawable(ContextCompat.getDrawable(this@AddUpdateMemoryActivity, R.drawable.ic_edit))
-    }
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean,
+                    ): Boolean {
+                        resource?.let {
+                            val bitmap = resource.toBitmap()
+                            mImagePath = saveImageToInternalStorage(bitmap)
+
+                            Log.i(TAG, "PathImage: $mImagePath")
+                        }
+                        return false
+                    }
+                })
+                .into(mBinding.ivMemoryImage)
+
+            mBinding.ivAddMemoryImage.setImageDrawable(ContextCompat.getDrawable(this@AddUpdateMemoryActivity,
+                R.drawable.ic_edit))
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,46 +184,76 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
                     return
                 }
                 R.id.et_type -> {
-                    customItemsDialog(resources.getString(R.string.title_select_memory_type), Constants.memoryTypes(), Constants.MEMORY_TYPE)
+                    customItemsDialog(resources.getString(R.string.title_select_memory_type),
+                        Constants.memoryTypes(),
+                        Constants.MEMORY_TYPE)
                     return
                 }
                 R.id.et_people_involved -> {
-                    customItemsDialog(resources.getString(R.string.title_select_people_involved), Constants.peopleInvolvedInMemory(),Constants.PEOPLE_INVOLVED)
+                    customItemsDialog(resources.getString(R.string.title_select_people_involved),
+                        Constants.peopleInvolvedInMemory(),
+                        Constants.PEOPLE_INVOLVED)
                 }
 
                 R.id.btn_add_update_memory -> {
 //                    trim{it <= ' '} to take out the empty spaces from the input
-                    val title = mBinding.etTitle.text.toString().trim{it <= ' '}
-                    val type = mBinding.etType.text.toString().trim{it <= ' '}
-                    val peopleInvolved = mBinding.etPeopleInvolved.text.toString().trim{it <= ' '}
-                    val date = mBinding.etDate.text.toString().trim{it <= ' '}
-                    val time = mBinding.etTimeAddingInDiary.text.toString().trim{it <= ' '}
-                    val description = mBinding.etDescription.text.toString().trim{it <= ' '}
+                    val title = mBinding.etTitle.text.toString().trim { it <= ' ' }
+                    val type = mBinding.etType.text.toString().trim { it <= ' ' }
+                    val peopleInvolved =
+                        mBinding.etPeopleInvolved.text.toString().trim { it <= ' ' }
+                    val date = mBinding.etDate.text.toString().trim { it <= ' ' }
+                    val time = mBinding.etTimeAddingInDiary.text.toString().trim { it <= ' ' }
+                    val description = mBinding.etDescription.text.toString().trim { it <= ' ' }
 
-                    when{
+                    when {
                         TextUtils.isEmpty(mImagePath) -> {
-                            Toast.makeText(this, R.string.err_msg_image_not_selected, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,
+                                R.string.err_msg_image_not_selected,
+                                Toast.LENGTH_LONG).show()
                         }
                         TextUtils.isEmpty(title) -> {
-                            Toast.makeText(this, R.string.err_msg_title_not_entered, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,
+                                R.string.err_msg_title_not_entered,
+                                Toast.LENGTH_LONG).show()
                         }
                         TextUtils.isEmpty(type) -> {
-                            Toast.makeText(this, R.string.err_msg_type_not_selected, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,
+                                R.string.err_msg_type_not_selected,
+                                Toast.LENGTH_LONG).show()
                         }
                         TextUtils.isEmpty(peopleInvolved) -> {
-                            Toast.makeText(this, R.string.err_msg_people_not_selected, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,
+                                R.string.err_msg_people_not_selected,
+                                Toast.LENGTH_LONG).show()
                         }
                         TextUtils.isEmpty(date) -> {
-                            Toast.makeText(this, R.string.err_msg_date_not_selected, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,
+                                R.string.err_msg_date_not_selected,
+                                Toast.LENGTH_LONG).show()
                         }
-//                        TextUtils.isEmpty(time) -> {
-//                            Toast.makeText(this, R.string.err_msg_time_not_selected, Toast.LENGTH_LONG).show()
-//                        }
+                        TextUtils.isEmpty(time) -> {
+                            Toast.makeText(this,
+                                R.string.err_msg_time_not_selected,
+                                Toast.LENGTH_LONG).show()
+                        }
                         TextUtils.isEmpty(description) -> {
-                            Toast.makeText(this, R.string.err_msg_description_not_selected, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,
+                                R.string.err_msg_description_not_selected,
+                                Toast.LENGTH_LONG).show()
                         }
                         else -> {
-                            Toast.makeText(this, "sab bhardia", Toast.LENGTH_LONG).show()
+                            //creating an entity of MemoDiary
+                            val memoDiaryDetails: MemoDiary = MemoDiary(
+                                mImagePath,
+                                Constants.MEMO_IMAGE_SOURCE_LOCAL,
+                                title, type, date, peopleInvolved, time, description, false
+                            )
+
+                            mMemoDiaryViewModel.insert(memoDiaryDetails)
+                            Toast.makeText(this, "You successfully added your memory details in the diary.", Toast.LENGTH_LONG).show()
+                            Log.e("Insertion", "Success")
+                            //finishing our addUpdateMemory activity
+                            finish()
                         }
 
 
@@ -224,7 +271,6 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
 
 
     private fun customImageSelectionDialog() {
@@ -245,7 +291,9 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     report?.let {
                         if (report.areAllPermissionsGranted()) {
-                            tempImageUri = FileProvider.getUriForFile(this@AddUpdateMemoryActivity, "com.example.memodiary.provider", createImageFile())
+                            tempImageUri = FileProvider.getUriForFile(this@AddUpdateMemoryActivity,
+                                "com.example.memodiary.provider",
+                                createImageFile())
                             takePictureFromCamera.launch(tempImageUri)
 
 
@@ -325,9 +373,7 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-
-    private fun saveImageToInternalStorage(bitmap : Bitmap) : String
-    {
+    private fun saveImageToInternalStorage(bitmap: Bitmap): String {
         //ki ye bitmap jo bana rahe h vo kiss application ke liye assigned hai
         val wrapper = ContextWrapper(applicationContext)
         var file = wrapper.getDir(IMAGE_DIRECTORY, Context.MODE_PRIVATE)
@@ -336,19 +382,19 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
 
         try {
             //we prepare a file output stream with our file, which is where we want to store it
-            val stream : OutputStream = FileOutputStream(file)
+            val stream: OutputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream.flush()
             stream.close()
-        }catch (e:IOException){
+        } catch (e: IOException) {
             e.printStackTrace()
         }
         return file.absolutePath
     }
 
-    private fun customItemsDialog(title:String, itemsList : List<String>, selection : String){
+    private fun customItemsDialog(title: String, itemsList: List<String>, selection: String) {
         mCustomListBinding = Dialog(this)
-        val binding : DialogCustomListBinding = DialogCustomListBinding.inflate(layoutInflater)
+        val binding: DialogCustomListBinding = DialogCustomListBinding.inflate(layoutInflater)
         //setting up the ui of the customListDialog to the created UI  DialogCustomList i.e binding here
         mCustomListBinding.setContentView(binding.root)
         binding.tvTitle.text = title
@@ -359,8 +405,8 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //not private because is used in adapter class
-    fun selectedListItem(item: String, selection: String){
-        when(selection){
+    fun selectedListItem(item: String, selection: String) {
+        when (selection) {
             Constants.MEMORY_TYPE -> {
                 mCustomListBinding.dismiss()
                 mBinding.etType.setText(item)
@@ -374,8 +420,7 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //function to choose the date
-    private fun chooseDate()
-    {
+    private fun chooseDate() {
         val calendar = Calendar.getInstance()
         //this will be the date that will be selected by the date picker by default
         val curDay = calendar.get(Calendar.DAY_OF_MONTH)
@@ -383,14 +428,14 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         val curYear = calendar.get(Calendar.YEAR)
         val picker = DatePickerDialog(this,
             { _, year, month, dayOfMonth ->
-                if(year>curYear || (year==curYear && month>curMonth) || (year==curYear && month==curMonth && dayOfMonth>curDay)) {
+                if (year > curYear || (year == curYear && month > curMonth) || (year == curYear && month == curMonth && dayOfMonth > curDay)) {
                     mBinding.etDate.setText("")
                     Toast.makeText(this,
                         "Enter valid date",
                         Toast.LENGTH_LONG).show()
-                }else
+                } else
                 //dk why but month has 0 based indexing that's why +1
-                    mBinding.etDate.setText("$dayOfMonth / ${month+1} / $year")
+                    mBinding.etDate.setText("$dayOfMonth / ${month + 1} / $year")
             }, curYear, curMonth, curDay)
         picker.show()
     }
@@ -400,7 +445,7 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         //this will be the date that will be selected by the date picker by default
         val curHour = calendar.get(Calendar.HOUR_OF_DAY)
         val curMinutes = calendar.get(Calendar.MINUTE)
-        val picker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener{
+        val picker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(view: TimePicker?, hour: Int, minutes: Int) {
                 mBinding.etTimeAddingInDiary.setText("$hour : $minutes")
             }

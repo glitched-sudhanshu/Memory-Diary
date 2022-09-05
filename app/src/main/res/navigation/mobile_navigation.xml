@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_all_memory">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_all_memory"
         android:name="com.example.memodiary.views.fragments.AllMemoryFragment"
-        android:label="@string/title_home"
+        android:label="@string/title_all_memory"
         tools:layout="@layout/fragment_all_memory" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.memodiary.views.fragments.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_favourite_memory"
+        android:name="com.example.memodiary.views.fragments.FavouriteMemoryFragment"
+        android:label="@string/title_favourite_memory"
+        tools:layout="@layout/fragment_favourite_memory" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.memodiary.views.fragments.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_random_memory"
+        android:name="com.example.memodiary.views.fragments.RandomMemoryFragment"
+        android:label="@string/title_random_memory"
+        tools:layout="@layout/fragment_random_memory" />
 </navigation>
