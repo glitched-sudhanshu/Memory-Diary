@@ -22,7 +22,7 @@ data class MemoDiary(
     @ColumnInfo val peopleInvolved : String,
     @ColumnInfo (name = "time_of_adding") val time : String,
     @ColumnInfo (name = "description_of_memory") val description : String,
-    @ColumnInfo (name = "favourite_memory") val favouriteMemory : Boolean =  false,
+    @ColumnInfo (name = "favourite_memory") var favouriteMemory : Boolean =  false,
     //this line means that primary key column would be automatically generated for us. And the id entry would automatically incremented whenever a new entry is introduced
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 //Parcelable to pass objects over other screens easily

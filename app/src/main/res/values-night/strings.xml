@@ -2,4 +2,5 @@
 <resources>
     <string name="approximate_diary_entry_time">This diary entry was created on %1$s of the following date.</string>
     <string name="people_involved">People involved:</string>
+    <string name="msg_added_to_favourites">You have added the memory to your favourites.</string>
 </resources>

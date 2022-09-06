@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
-        val navView: BottomNavigationView = mBinding.navView
-
         //TODO: Back button
         mNavController = findNavController(R.id.nav_host_fragment_activity_main)
         // Passing each menu ID as a set of Ids because each
@@ -36,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(mNavController, appBarConfiguration)
+        NavigationUI.setupActionBarWithNavController(this, mNavController)
         mBinding.navView.setupWithNavController(mNavController)
 
     }

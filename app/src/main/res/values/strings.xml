@@ -34,4 +34,8 @@
     <string name="people_involved">People involved</string>
     <string name="date">Date</string>
     <string name="type">Type</string>
+    <string name="tv_date_lbl">Date</string>
+    <string name="feeling">Feeling</string>
+    <string name="msg_added_to_favourites">You have added the memory to your favourites.</string>
+    <string name="msg_removed_from_favourites">You have removed the memory from your favourites.</string>
 </resources>

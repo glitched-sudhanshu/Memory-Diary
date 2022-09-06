@@ -17,6 +17,10 @@ class MemoDiaryViewModel(private val repository: MemoDiaryRepository) : ViewMode
      * using live data and caching with all returns has several benefits, we can put an observer on the data instead of calling for changes and only update the UI when data actually changes
      */
     val allMemoryList : LiveData<List<MemoDiary>> = repository.allMemoDiaryList.asLiveData()
+
+    fun update(memory : MemoDiary) = viewModelScope.launch {
+        repository.updateFavMemoryData(memory)
+    }
 }
 
 //it will take care of the life cycle of viewModel. So, it will survive configuration changes

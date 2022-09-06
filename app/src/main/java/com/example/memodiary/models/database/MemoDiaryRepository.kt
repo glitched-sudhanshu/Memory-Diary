@@ -26,6 +26,11 @@ class MemoDiaryRepository(private val memoDiaryDao: MemoDiaryDao) {
     }
 
     val allMemoDiaryList: Flow<List<MemoDiary>> = memoDiaryDao.getAllMemoryList()
+
+    @WorkerThread
+    suspend fun updateFavMemoryData(memoDiary: MemoDiary){
+        memoDiaryDao.updateFavMemoryDetails(memoDiary)
+    }
 }
 
 /**

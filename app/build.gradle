@@ -77,4 +77,6 @@ dependencies {
     //optional- Kotlin ext. and coroutines support for room
     implementation("androidx.room:room-ktx:$room_version")
 
+    //android pallet
+    implementation 'androidx.palette:palette-ktx:1.0.0'
 }

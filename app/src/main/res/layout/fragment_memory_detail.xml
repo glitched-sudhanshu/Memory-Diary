@@ -4,8 +4,8 @@
     android:id="@+id/sv_memory_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
                 android:background="@color/primaryColor"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                     android:id="@+id/iv_fav_memory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_unselected_favorite"/>
+                    android:src="@drawable/ic_unselected_favorite" />
             </LinearLayout>
         </FrameLayout>
 
@@ -60,10 +60,11 @@
             android:layout_below="@id/tv_title"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:text="@string/feeling"
             android:textColor="@color/secondaryColor"
-            android:textStyle="bold"
             android:textSize="@dimen/_16sdp"
-            tools:text="Type"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_type"
@@ -84,7 +85,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
             android:text="@string/people_involved"
             android:textColor="@color/secondaryColor"
             android:textSize="@dimen/_16sdp"
@@ -97,19 +98,47 @@
             android:layout_below="@id/tv_people_label"
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/_16sdp"
-            android:textColor="@color/secondaryColor"
+            android:textColor="@color/secondaryLightColor"
             android:textSize="@dimen/_14sdp"
             tools:text="People involved" />
+
+        <TextView
+            android:id="@+id/tv_date_lbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_people"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:text="@string/tv_date_lbl"
+            android:textColor="@color/secondaryColor"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_date_lbl"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:textColor="@color/secondaryLightColor"
+            android:textSize="@dimen/_14sdp"
+            tools:text="Date" />
 
         <TextView
             android:id="@+id/tv_desc_lbl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_people"
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_below="@id/tv_date"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
             android:text="@string/lbl_description"
-            android:textSize="@dimen/_16sdp"
             android:textColor="@color/secondaryColor"
+            android:textSize="@dimen/_16sdp"
             android:textStyle="bold" />
 
         <TextView
@@ -119,9 +148,9 @@
             android:layout_below="@id/tv_desc_lbl"
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/_16sdp"
-            android:textColor="@color/secondaryColor"
+            android:textColor="@color/secondaryLightColor"
             android:textSize="@dimen/_14sdp"
-            tools:text="Description here"/>
+            tools:text="Description here" />
 
         <TextView
             android:id="@+id/tv_diary_entry_time"
@@ -134,7 +163,7 @@
             android:layout_marginBottom="@dimen/_16sdp"
             android:text="@string/approximate_diary_entry_time"
             android:textColor="@color/primaryDarkColor"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="@dimen/_10sdp"
             android:textStyle="bold" />
 
     </RelativeLayout>
