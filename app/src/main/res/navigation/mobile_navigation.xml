@@ -9,7 +9,11 @@
         android:id="@+id/navigation_all_memory"
         android:name="com.example.memodiary.views.fragments.AllMemoryFragment"
         android:label="@string/title_all_memory"
-        tools:layout="@layout/fragment_all_memory" />
+        tools:layout="@layout/fragment_all_memory" >
+        <action
+            android:id="@+id/action_navigation_all_memory_to_navigation_memory_detail"
+            app:destination="@id/navigation_memory_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favourite_memory"
@@ -22,4 +26,16 @@
         android:name="com.example.memodiary.views.fragments.RandomMemoryFragment"
         android:label="@string/title_random_memory"
         tools:layout="@layout/fragment_random_memory" />
+
+    <fragment
+        android:id="@+id/navigation_memory_detail"
+        android:name="com.example.memodiary.views.fragments.MemoryDetailFragment"
+        android:label="@string/tiile_memory_details"
+        tools:layout="@layout/fragment_memory_detail">
+
+        <argument
+            android:name="memoryDetails"
+            app:argType="com.example.memodiary.models.entities.MemoDiary"
+            />
+    </fragment>
 </navigation>

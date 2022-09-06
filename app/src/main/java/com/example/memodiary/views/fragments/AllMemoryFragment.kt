@@ -11,14 +11,17 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.memodiary.R
 import com.example.memodiary.application.MemoDiaryApplication
 import com.example.memodiary.databinding.FragmentAllMemoryBinding
+import com.example.memodiary.models.entities.MemoDiary
 import com.example.memodiary.viewmodels.HomeViewModel
 import com.example.memodiary.viewmodels.MemoDiaryViewModel
 import com.example.memodiary.viewmodels.MemoDiaryViewModelFactory
 import com.example.memodiary.views.activities.AddUpdateMemoryActivity
+import com.example.memodiary.views.activities.MainActivity
 import com.example.memodiary.views.adapters.MemoryDiaryAdapter
 
 class AllMemoryFragment : Fragment() {
@@ -83,6 +86,25 @@ class AllMemoryFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+
+    //function to move to the other fragment[fragment of each memory detail]
+    fun memoryDetails(memoDiary: MemoDiary){
+        //while navigating you have to pass the arguments(data you need to transfer)
+        findNavController().navigate(AllMemoryFragmentDirections.actionNavigationAllMemoryToNavigationMemoryDetail(memoDiary))
+
+//        here we are calling the function from the main activity which is not a part of it
+        if(requireActivity() is MainActivity){
+            (activity as MainActivity?)?.hideBottomNavigationView()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(requireActivity() is MainActivity){
+            (activity as MainActivity?)?.showBottomNavigationView()
         }
     }
 

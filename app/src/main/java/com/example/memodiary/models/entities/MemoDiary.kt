@@ -1,11 +1,15 @@
 package com.example.memodiary.models.entities
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+//@Parcelize to pass objects over other screens easily
 //@Entity means we are marking this as an entity (database vala theory)
 //then we are giving the table name
+@Parcelize
 @Entity(tableName = "memo_diary_table")
 data class MemoDiary(
     //then we are defining various columns
@@ -21,5 +25,5 @@ data class MemoDiary(
     @ColumnInfo (name = "favourite_memory") val favouriteMemory : Boolean =  false,
     //this line means that primary key column would be automatically generated for us. And the id entry would automatically incremented whenever a new entry is introduced
     @PrimaryKey(autoGenerate = true) val id: Int = 0
-
-)
+//Parcelable to pass objects over other screens easily
+):Parcelable

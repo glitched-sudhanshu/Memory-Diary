@@ -27,4 +27,11 @@
     <string name="err_msg_description_not_selected">Please enter some description.</string>
     <string name="lbl_tv_no_memory_added_yet">No memories added yet.</string>
     <string name="image_memory_contentDesc">Memory image</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tiile_memory_details">Memory Details</string>
+    <string name="approximate_diary_entry_time">This diary entry was created on %1$s of the following date.</string>
+    <string name="people_involved">People involved</string>
+    <string name="date">Date</string>
+    <string name="type">Type</string>
 </resources>

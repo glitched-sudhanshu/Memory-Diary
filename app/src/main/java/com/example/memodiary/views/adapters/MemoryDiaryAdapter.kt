@@ -11,6 +11,7 @@ import com.example.memodiary.R
 import com.example.memodiary.databinding.ItemCustomListBinding
 import com.example.memodiary.databinding.ItemMemoryLayoutBinding
 import com.example.memodiary.models.entities.MemoDiary
+import com.example.memodiary.views.fragments.AllMemoryFragment
 
 class MemoryDiaryAdapter(private val fragment: Fragment) : RecyclerView.Adapter<MemoryDiaryAdapter.ViewHolder>() {
 
@@ -27,6 +28,11 @@ class MemoryDiaryAdapter(private val fragment: Fragment) : RecyclerView.Adapter<
             .load(memory.image)
             .into(holder.ivMemoryImage)
         holder.tvTitle.text = memory.title
+
+        holder.itemView.setOnClickListener{
+            //to move to the other fragment[fragment of each memory detail]
+            if(fragment is AllMemoryFragment)fragment.memoryDetails(memory)
+        }
     }
 
     override fun getItemCount(): Int {
