@@ -20,17 +20,26 @@ class MemoDiaryRepository(private val memoDiaryDao: MemoDiaryDao) {
 //    val allWords: Flow<List<Word>> = wordDao.getAlphabetizedWords()
 
 
+    //updating db
     @WorkerThread
     suspend fun insertMemoDiaryData(memoDiary: MemoDiary){
         memoDiaryDao.insertFavMemoDiaryDetails(memoDiary)
     }
 
+    //taking data from db
     val allMemoDiaryList: Flow<List<MemoDiary>> = memoDiaryDao.getAllMemoryList()
 
+    //updating db
     @WorkerThread
     suspend fun updateFavMemoryData(memoDiary: MemoDiary){
         memoDiaryDao.updateFavMemoryDetails(memoDiary)
     }
+
+
+    //taking data from db
+    val allFavouriteMemory  : Flow<List<MemoDiary>> = memoDiaryDao.getFavouriteMemory()
+
+
 }
 
 /**

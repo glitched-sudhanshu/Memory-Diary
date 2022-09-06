@@ -38,4 +38,8 @@
     <string name="feeling">Feeling</string>
     <string name="msg_added_to_favourites">You have added the memory to your favourites.</string>
     <string name="msg_removed_from_favourites">You have removed the memory from your favourites.</string>
+    <string name="lbl_tv_no_fav_memory_added_yet">You have not marked any memory as FAVOURITE.</string>
+    <string name="more_option_contentDesc">More options</string>
+    <string name="action_edit_memory">Edit Memory</string>
+    <string name="action_delete_memory">Delete Dish</string>
 </resources>

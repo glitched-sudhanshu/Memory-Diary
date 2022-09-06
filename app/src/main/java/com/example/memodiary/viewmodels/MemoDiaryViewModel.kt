@@ -21,6 +21,8 @@ class MemoDiaryViewModel(private val repository: MemoDiaryRepository) : ViewMode
     fun update(memory : MemoDiary) = viewModelScope.launch {
         repository.updateFavMemoryData(memory)
     }
+
+    val allFavouriteMemory : LiveData<List<MemoDiary>> = repository.allFavouriteMemory.asLiveData()
 }
 
 //it will take care of the life cycle of viewModel. So, it will survive configuration changes

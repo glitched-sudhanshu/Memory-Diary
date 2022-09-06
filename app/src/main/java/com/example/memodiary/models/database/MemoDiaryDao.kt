@@ -24,4 +24,7 @@ interface MemoDiaryDao {
     @Update
     suspend fun updateFavMemoryDetails(memoDiary: MemoDiary)
 
+    @Query("SELECT * FROM MEMO_DIARY_TABLE WHERE favourite_memory = 1")
+    fun getFavouriteMemory(): Flow<List<MemoDiary>>
+
 }

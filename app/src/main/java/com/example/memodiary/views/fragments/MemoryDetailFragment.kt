@@ -61,37 +61,7 @@ class MemoryDetailFragment : Fragment() {
                 Glide.with(requireActivity())
                     .load(it.memoryDetails.image)
                     .centerCrop()
-                    .listener(object : RequestListener<Drawable>{
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            isFirstResource: Boolean,
-                        ): Boolean {
-                            Log.e("Color palette", "onLoadFailed: Error occurred")
-                            return false
-                        }
-
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean,
-                        ): Boolean {
-                            resource?.let {
-                                Palette.from(resource.toBitmap())
-                                    .generate{
-                                        palette ->
-                                        //TODO: Palette not working
-                                            val color = palette?.vibrantSwatch?.rgb ?: 255
-                                        Log.i("Palette color",": $color")
-                                            mBinding!!.svMemoryDetail.setBackgroundColor(color)
-                                    }
-                            }
-                            return false
-                        }
-                    })
+                        //not adding palette
                     .into(mBinding!!.ivMemoryImage)
             }catch (e:IOException){
                 e.printStackTrace()

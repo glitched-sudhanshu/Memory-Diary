@@ -82,7 +82,6 @@ class AllMemoryFragment : Fragment() {
                     }else{
                         mBinding!!.rvMemoryList.visibility = View.GONE
                         mBinding!!.tvNoMemoryAddedYet.visibility = View.VISIBLE
-
                     }
                 }
             }

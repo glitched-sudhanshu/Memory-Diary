@@ -19,7 +19,11 @@
         android:id="@+id/navigation_favourite_memory"
         android:name="com.example.memodiary.views.fragments.FavouriteMemoryFragment"
         android:label="@string/title_favourite_memory"
-        tools:layout="@layout/fragment_favourite_memory" />
+        tools:layout="@layout/fragment_favourite_memory" >
+        <action
+            android:id="@+id/action_navigation_favourite_memory_to_navigation_memory_detail"
+            app:destination="@id/navigation_memory_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_random_memory"
