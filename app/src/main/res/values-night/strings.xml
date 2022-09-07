@@ -3,4 +3,10 @@
     <string name="approximate_diary_entry_time">This diary entry was created on %1$s of the following date.</string>
     <string name="people_involved">People involved:</string>
     <string name="msg_added_to_favourites">You have added the memory to your favourites.</string>
+    <string name="title_add_memory">Add Memory</string>
+    <string name="msg_delete_memory">Are you sure you want to delete %1$s</string>
+    <string name="lbl_yes">Yes</string>
+    <string name="lbl_no">No</string>
+    <string name="action_filter_memory">Filter Memories</string>
+    <string name="title_select_item_to_filter">Select memory to filter.</string>
 </resources>

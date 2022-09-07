@@ -2,6 +2,7 @@ package com.example.memodiary.views.adapters
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import com.example.memodiary.databinding.FragmentAllMemoryBinding
 import com.example.memodiary.databinding.ItemCustomListBinding
 import com.example.memodiary.databinding.ItemMemoryLayoutBinding
 import com.example.memodiary.models.entities.MemoDiary
+import com.example.memodiary.utils.Constants
+import com.example.memodiary.views.activities.AddUpdateMemoryActivity
 import com.example.memodiary.views.fragments.AllMemoryFragment
 import com.example.memodiary.views.fragments.FavouriteMemoryFragment
 
@@ -46,9 +49,14 @@ class MemoryDiaryAdapter(private val fragment: Fragment) : RecyclerView.Adapter<
 
             popup.setOnMenuItemClickListener {
                 if(it.itemId == R.id.action_edit_memory){
-                    Log.i("You have clicked on", "Edit option of ${memory.id}")
+                    val intent = Intent(fragment.requireActivity(), AddUpdateMemoryActivity::class.java)
+                    //sending memory from fragment to activity where [Constants.EXTRA_MEMORY_DETAILS] is the key and [memory] is the value.
+                    intent.putExtra(Constants.EXTRA_MEMORY_DETAILS, memory)
+                    fragment.requireActivity().startActivity(intent)
                 }else if(it.itemId == R.id.action_delete_memory){
-                    Log.i("You have clicked on", "Edit option of ${memory.id}")
+                   if(fragment is AllMemoryFragment){
+                       fragment.deleteMemory(memory)
+                   }
                 }
                 true
             }

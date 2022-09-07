@@ -23,6 +23,12 @@ class MemoDiaryViewModel(private val repository: MemoDiaryRepository) : ViewMode
     }
 
     val allFavouriteMemory : LiveData<List<MemoDiary>> = repository.allFavouriteMemory.asLiveData()
+
+    fun delete(memory: MemoDiary) = viewModelScope.launch {
+        repository.deleteMemoryData(memory)
+    }
+
+    fun getFilteredList(value:String) :LiveData<List<MemoDiary>> = repository.filteredListMemories(value).asLiveData()
 }
 
 //it will take care of the life cycle of viewModel. So, it will survive configuration changes

@@ -78,6 +78,8 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var mCustomListBinding: Dialog
 
+    private var mEditMemoryDetails : MemoDiary? = null
+
     private var tempImageUri: Uri? = null
 
     private var mImagePath = ""
@@ -153,6 +155,30 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         mBinding = ActivityAddUpdateMemoryBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
+        //receiving data from the fragment
+        if(intent.hasExtra(Constants.EXTRA_MEMORY_DETAILS)){
+            mEditMemoryDetails = intent.getParcelableExtra(Constants.EXTRA_MEMORY_DETAILS)
+
+            //populating data with already present values
+            mEditMemoryDetails?.let {
+                if(it.id!=0){
+                    mImagePath = it.image
+                    Glide.with(this)
+                        .load(mImagePath)
+                        .into(mBinding.ivMemoryImage)
+
+                    mBinding.etTitle.setText(it.title)
+                    mBinding.etType.setText(it.type)
+                    mBinding.etDate.setText(it.date)
+                    mBinding.etTimeAddingInDiary.setText(it.time)
+                    mBinding.etDescription.setText(it.description)
+                    mBinding.etPeopleInvolved.setText(it.peopleInvolved)
+                    mBinding.btnAddUpdateMemory.setText(R.string.update_memory)
+                }
+            }
+        }
+
+        //it must come after the [mEditMemoryDetails] check
         setupActionBar()
 
         mBinding.ivAddMemoryImage.setOnClickListener(this)
@@ -168,6 +194,18 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
     private fun setupActionBar() {
         //toolbar ko action bar bana dia
         setSupportActionBar(mBinding.toolbarAddMemoryActivity)
+        if(mEditMemoryDetails != null && mEditMemoryDetails!!.id != 0){
+            supportActionBar?.let{
+                //here [title] is title of the action bar
+                it.title = resources.getString(R.string.title_edit_memory)
+            }
+        }
+        //TODO: app bar else case
+//        else{
+//            supportActionBar?.let {
+//                it.title = resources.getString(R.string.title_add_memory)
+//            }
+//        }
         //back button aagya
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mBinding.toolbarAddMemoryActivity.setNavigationOnClickListener {
@@ -242,16 +280,41 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
                                 Toast.LENGTH_LONG).show()
                         }
                         else -> {
+
+                            var memoryId = 0;
+                            var imageSource = Constants.MEMO_IMAGE_SOURCE_LOCAL
+                            var favouriteMemory = false
+
+                            //if we have data from the edit dish it will change the [memoryId] and it will not remain 0. We can use this to check whether we are creating a new memory or we are editing a existing one
+                            mEditMemoryDetails?.let{
+                                if(it.id!=0){
+                                    memoryId = it.id
+                                    imageSource = it.imageSource
+                                    favouriteMemory = it.favouriteMemory
+                                }
+                            }
+
                             //creating an entity of MemoDiary
                             val memoDiaryDetails: MemoDiary = MemoDiary(
                                 mImagePath,
-                                Constants.MEMO_IMAGE_SOURCE_LOCAL,
-                                title, type, date, peopleInvolved, time, description, false
+                                imageSource,
+                                title, type, date, peopleInvolved, time, description, favouriteMemory, memoryId
                             )
 
-                            mMemoDiaryViewModel.insert(memoDiaryDetails)
-                            Toast.makeText(this, "You successfully added your memory details in the diary.", Toast.LENGTH_LONG).show()
-                            Log.e("Insertion", "Success")
+                            //if it is 0 it means we have created a new memory
+                            if(memoryId == 0){
+                                mMemoDiaryViewModel.insert(memoDiaryDetails)
+                                Toast.makeText(this, "You successfully added your memory details in the diary.", Toast.LENGTH_LONG).show()
+                                Log.e("Insertion", "Success")
+                            }
+                            else{
+                                //memoDiaryDetails is the entity that we have created above
+                                mMemoDiaryViewModel.update(memoDiaryDetails)
+                                Toast.makeText(this, "You successfully updated your memory details in the diary.", Toast.LENGTH_LONG).show()
+                                Log.e("Updating", "Success")
+                            }
+
+
                             //finishing our addUpdateMemory activity
                             finish()
                         }
@@ -399,7 +462,7 @@ class AddUpdateMemoryActivity : AppCompatActivity(), View.OnClickListener {
         mCustomListBinding.setContentView(binding.root)
         binding.tvTitle.text = title
         binding.rvList.layoutManager = LinearLayoutManager(this)
-        val adapter = CustomListItemAdapter(this, itemsList, selection)
+        val adapter = CustomListItemAdapter(this, null, itemsList, selection)
         binding.rvList.adapter = adapter
         mCustomListBinding.show()
     }

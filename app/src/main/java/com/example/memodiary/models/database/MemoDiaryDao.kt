@@ -1,9 +1,6 @@
 package com.example.memodiary.models.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.memodiary.models.entities.MemoDiary
 import kotlinx.coroutines.flow.Flow
 
@@ -26,5 +23,11 @@ interface MemoDiaryDao {
 
     @Query("SELECT * FROM MEMO_DIARY_TABLE WHERE favourite_memory = 1")
     fun getFavouriteMemory(): Flow<List<MemoDiary>>
+
+    @Delete
+    suspend fun deleteMemoryDetails(memoDiary: MemoDiary)
+
+    @Query("SELECT * FROM MEMO_DIARY_TABLE WHERE peopleInvolved = :filterType")
+    fun getFilteredMemoryList(filterType : String) : Flow<List<MemoDiary>>
 
 }

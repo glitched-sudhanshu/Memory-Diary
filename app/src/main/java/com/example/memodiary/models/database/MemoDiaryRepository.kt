@@ -39,6 +39,13 @@ class MemoDiaryRepository(private val memoDiaryDao: MemoDiaryDao) {
     //taking data from db
     val allFavouriteMemory  : Flow<List<MemoDiary>> = memoDiaryDao.getFavouriteMemory()
 
+    @WorkerThread
+    suspend fun deleteMemoryData(memoDiary: MemoDiary){
+        memoDiaryDao.deleteMemoryDetails(memoDiary)
+    }
+
+    fun filteredListMemories(value : String) : Flow<List<MemoDiary>> = memoDiaryDao.getFilteredMemoryList(value)
+
 
 }
 

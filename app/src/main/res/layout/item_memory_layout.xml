@@ -36,8 +36,9 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/more_option_contentDesc"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_more"
-                />
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:src="@drawable/ic_more" />
         </FrameLayout>
 
 
