@@ -51,7 +51,7 @@
             android:textColor="@color/secondaryDarkColor"
             android:textSize="@dimen/_20sdp"
             android:textStyle="bold|italic"
-            tools:text="Dish Title" />
+            tools:text="Memory Title" />
 
         <TextView
             android:id="@+id/lbl_tv_type"

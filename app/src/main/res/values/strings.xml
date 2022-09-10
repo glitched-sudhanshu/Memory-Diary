@@ -51,4 +51,8 @@
     <string name="title_delete_memory">Delete memory</string>
     <string name="action_filter_memory">Filter Memories</string>
     <string name="title_select_item_to_filter">Select memory to filter.</string>
+    <string name="action_share_memory">Share Memory</string>
+    <string name="notification_title">Check out new memory</string>
+    <string name="notification_subtitle">Tap for more details</string>
+    <string name="loading_meme"><![CDATA[Please Wait&#8230;]]></string>
 </resources>

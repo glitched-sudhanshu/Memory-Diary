@@ -53,6 +53,7 @@ class AllMemoryFragment : Fragment() {
         val menuHost : MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider{
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                val fragment : Fragment = this@AllMemoryFragment
                 if(!menu.hasVisibleItems())
                     menuInflater.inflate(R.menu.menu_all_memory, menu)
 
@@ -181,18 +182,19 @@ class AllMemoryFragment : Fragment() {
             }
         }else{
             mMemoDiaryViewModel.getFilteredList(filterItemSelection).observe(viewLifecycleOwner){
-                memory -> {
+                memory ->
+                run {
                     memory.let {
-                        if(it.isNotEmpty()){
+                        if (it.isNotEmpty()) {
                             mBinding!!.rvMemoryList.visibility = View.VISIBLE
                             mBinding!!.tvNoMemoryAddedYet.visibility = View.GONE
                             mMemoryDiaryAdapter.memoryList(it)
-                        }else{
+                        } else {
                             mBinding!!.rvMemoryList.visibility = View.GONE
                             mBinding!!.tvNoMemoryAddedYet.visibility = View.VISIBLE
                         }
                     }
-            }
+                }
             }
         }
     }

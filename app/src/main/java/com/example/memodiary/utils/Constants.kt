@@ -11,6 +11,24 @@ object Constants {
 
     const val EXTRA_MEMORY_DETAILS : String = "MemoryDetails"
 
+    const val NOTIFICATION_ID = "MemoDiary_notification_id"
+    const val NOTIFICATION_NAME = "MemoDiary"
+    const val NOTIFICATION_CHANNEL = "MemoDiary_channel_01"
+
+    //creating the weblink via these constants
+    //the parameters required by the API are created here
+    const val API_ENDPOINT : String = "gimme"
+    const val NUMBER : String = "number"
+    const val BASE_URL : String = "https://meme-api.herokuapp.com/"
+
+    //giving values to the parameters now
+
+    //API_KEY_VALUE not required in our case
+    const val API_KEY_VALUE : String = "gimme"
+    const val NUMBER_VALUE : Int = 1
+
+
+
     fun memoryTypes():ArrayList<String>{
         val list = ArrayList<String>()
         list.add("Happiness")
