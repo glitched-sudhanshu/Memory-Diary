@@ -1,6 +1,6 @@
 ## ***Memory Diary***
 
-This application is a Memory saving application in which users can save their favourite memories they have lived or scroll over some random memes to pass the time fetched from the web. Users can perform CRUD operations on memories and can even filter them on the basis of people involved in that memory.
+This application is a Memory saving application in which users can save their favourite memories they have lived or scroll over some random memes to pass the time, fetched from the web. Users can perform CRUD operations on memories and can even filter them on the basis of people involved in that memory.
 
 ***
 
