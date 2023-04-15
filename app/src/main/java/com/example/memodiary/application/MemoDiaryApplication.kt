@@ -12,7 +12,6 @@ class MemoDiaryApplication : Application() {
         MemoDiaryRoomDatabase.getDatabase((this@MemoDiaryApplication))
     }
 
-//    the return instance uses itself to synchronize on and don't synchronize from external code on the return, for instance, as it may cause accidental deadlock
 val repository by lazy{
         MemoDiaryRepository(database.memoDiaryDao())
     }
